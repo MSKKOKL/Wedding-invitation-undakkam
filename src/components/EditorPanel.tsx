@@ -284,7 +284,7 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
 
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400 mb-1">
-                Google Maps Location Link (Optional)
+                Venue Google Maps Link (Optional)
               </label>
               <div className="relative flex items-center">
                 <Globe className="absolute left-3 text-neutral-400 h-4 w-4" />
@@ -634,7 +634,7 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
-                  Google Maps Directions Link
+                  Venue Google Maps Link
                 </label>
                 <input
                   type="url"

@@ -270,6 +270,39 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
     }
   };
 
+  // Generate interactive google maps embed link with address or link queries
+  const getGoogleMapsEmbedUrl = (mapUrl?: string, venueName?: string) => {
+    let query = venueName || "Qatar Auditorium, Karathur, Malappuram, Kerala";
+    if (mapUrl) {
+      try {
+        const urlObj = new URL(mapUrl);
+        const q = urlObj.searchParams.get('q') || urlObj.searchParams.get('query');
+        if (q) {
+          query = q;
+        } else if (urlObj.pathname.includes('/place/')) {
+          const parts = urlObj.pathname.split('/place/');
+          if (parts[1]) {
+            const placePart = parts[1].split('/')[0];
+            query = decodeURIComponent(placePart.replace(/\+/g, ' '));
+          }
+        } else {
+          const coordRegex = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
+          const match = urlObj.pathname.match(coordRegex);
+          if (match && match[1] && match[2]) {
+            query = `${match[1]},${match[2]}`;
+          } else {
+            query = venueName || mapUrl;
+          }
+        }
+      } catch (e) {
+        if (mapUrl.trim()) {
+          query = mapUrl.trim();
+        }
+      }
+    }
+    return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+  };
+
   // Stagger animation container with smooth organic spring physics
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.96, y: 35 },
@@ -784,15 +817,24 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
 
           {/* Venue Map */}
           <motion.div variants={itemVariants} className="w-full max-w-sm space-y-3 font-sans">
-            {/* Map Illustration Box */}
-            <div className={`relative h-28 rounded-xl overflow-hidden border flex flex-col items-center justify-center p-4 text-center ${
-              theme === 'islamic' ? 'border-amber-400/20 bg-emerald-900/50 text-amber-200' :
-              theme === 'royal' ? 'border-yellow-500/20 bg-neutral-900/50 text-yellow-100' :
-              theme === 'floral' ? 'border-rose-200 bg-rose-50/50 text-[#6D5A4E]' :
-              theme === 'minimal' ? 'border-neutral-200 bg-neutral-50 text-neutral-600' : 'border-[#BE7A5F]/20 bg-[#FAF3EC]/80 text-[#704235]'
+            {/* Interactive Map Preview iframe */}
+            <div className={`relative h-44 w-full rounded-xl overflow-hidden border ${
+              theme === 'islamic' ? 'border-amber-400/20 bg-emerald-900/50' :
+              theme === 'royal' ? 'border-yellow-500/20 bg-neutral-900/50' :
+              theme === 'floral' ? 'border-rose-200 bg-rose-50/50' :
+              theme === 'minimal' ? 'border-neutral-200 bg-neutral-50' : 'border-[#BE7A5F]/20 bg-[#FAF3EC]/80'
             }`}>
-              <Map className="h-6 w-6 opacity-60 mb-1 animate-pulse" />
-              <p className="text-[10px] max-w-xs">{venue || "Qatar Auditorium, Karathur, Malappuram, Kerala"}</p>
+              <iframe
+                title="Venue Location Map"
+                src={getGoogleMapsEmbedUrl(mapDirectionsUrl, venue)}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="opacity-95"
+              ></iframe>
             </div>
 
             <a
@@ -1118,11 +1160,19 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
           <motion.div variants={itemVariants} className="space-y-3 border-t border-amber-400/10 pt-6">
             <span className="text-xs uppercase tracking-widest font-sans font-bold text-amber-300 block">The Venue Map Location</span>
             
-            {/* Fake / Styling Map Illustration */}
-            <div className="relative h-32 rounded-xl overflow-hidden border border-amber-400/20 bg-emerald-900/50 flex flex-col items-center justify-center p-4">
-              <Map className="h-8 w-8 text-amber-400 opacity-60 mb-1" />
-              <p className="text-[10px] font-sans text-amber-200/80 text-center max-w-xs">{venue || "Qatar Auditorium, Karathur, Malappuram, Kerala"}</p>
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 to-transparent pointer-events-none opacity-50" />
+            {/* Interactive Map Preview iframe */}
+            <div className="relative h-44 w-full rounded-xl overflow-hidden border border-amber-400/20 bg-emerald-900/50">
+              <iframe
+                title="Islamic Venue Location Map"
+                src={getGoogleMapsEmbedUrl(mapDirectionsUrl, venue)}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="opacity-95"
+              ></iframe>
             </div>
 
             <a
@@ -1306,10 +1356,19 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
           <motion.div variants={itemVariants} className="space-y-3 border-t border-yellow-500/10 pt-6 mt-6">
             <span className="text-xs uppercase tracking-widest font-sans font-bold text-yellow-400 block">The Venue Map Location</span>
             
-            <div className="relative h-32 rounded-xl overflow-hidden border border-yellow-500/20 bg-neutral-900/50 flex flex-col items-center justify-center p-4">
-              <Map className="h-8 w-8 text-yellow-400 opacity-60 mb-1" />
-              <p className="text-[10px] font-sans text-yellow-200/80 text-center max-w-xs">{venue || "THE ROYAL GRAND BALLROOM, NEW YORK"}</p>
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 to-transparent pointer-events-none opacity-50" />
+            {/* Interactive Map Preview iframe */}
+            <div className="relative h-44 w-full rounded-xl overflow-hidden border border-yellow-500/20 bg-neutral-900/50">
+              <iframe
+                title="Royal Venue Location Map"
+                src={getGoogleMapsEmbedUrl(mapDirectionsUrl, venue || "THE ROYAL GRAND BALLROOM, NEW YORK")}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="opacity-95"
+              ></iframe>
             </div>
 
             <a
@@ -1475,9 +1534,19 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
           <motion.div variants={itemVariants} className="space-y-3 border-t border-[#E4D5C9] pt-6 mt-6">
             <span className="text-xs uppercase tracking-widest font-sans font-bold text-[#704235] block">The Venue Map Location</span>
             
-            <div className="relative h-32 rounded-xl overflow-hidden border border-rose-200 bg-rose-50/30 flex flex-col items-center justify-center p-4">
-              <Map className="h-8 w-8 text-rose-300 opacity-80 mb-1" />
-              <p className="text-[10px] font-sans text-[#6D5A4E] text-center max-w-xs">{venue || "The Rose Garden Greenhouse, Sunnyvale"}</p>
+            {/* Interactive Map Preview iframe */}
+            <div className="relative h-44 w-full rounded-xl overflow-hidden border border-rose-200 bg-rose-50/30">
+              <iframe
+                title="Floral Venue Location Map"
+                src={getGoogleMapsEmbedUrl(mapDirectionsUrl, venue || "The Rose Garden Greenhouse, Sunnyvale")}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="opacity-95"
+              ></iframe>
             </div>
 
             <a
@@ -1611,9 +1680,19 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
           <motion.div variants={itemVariants} className="space-y-3 border-t border-neutral-100 pt-6 mt-6">
             <span className="text-xs uppercase tracking-widest font-mono font-bold text-neutral-800 block">VENUE MAP LOCATION</span>
             
-            <div className="relative h-32 rounded border border-neutral-200 bg-neutral-50 flex flex-col items-center justify-center p-4">
-              <Map className="h-8 w-8 text-neutral-400 opacity-60 mb-1" />
-              <p className="text-[10px] font-mono uppercase text-neutral-600 text-center max-w-xs">{venue || "THE MODERN GALLERY, CHICAGO"}</p>
+            {/* Interactive Map Preview iframe */}
+            <div className="relative h-44 w-full rounded border border-neutral-200 bg-neutral-50">
+              <iframe
+                title="Minimal Venue Location Map"
+                src={getGoogleMapsEmbedUrl(mapDirectionsUrl, venue || "THE MODERN GALLERY, CHICAGO")}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="opacity-95"
+              ></iframe>
             </div>
 
             <a
@@ -1777,9 +1856,19 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
           <motion.div variants={itemVariants} className="space-y-3 border-t border-[#E2B39E]/30 pt-6 mt-6">
             <span className="text-xs uppercase tracking-widest font-sans font-bold text-[#704235] block">THE VENUE MAP LOCATION</span>
             
-            <div className="relative h-32 rounded-xl overflow-hidden border border-[#E2B39E]/30 bg-[#F5EADF] flex flex-col items-center justify-center p-4">
-              <Map className="h-8 w-8 text-[#BE7A5F] opacity-60 mb-1" />
-              <p className="text-[10px] font-sans text-[#704235] text-center max-w-xs">{venue || "The Boho Desert Sands Oasis, Joshua Tree"}</p>
+            {/* Interactive Map Preview iframe */}
+            <div className="relative h-44 w-full rounded-xl overflow-hidden border border-[#E2B39E]/30 bg-[#F5EADF]">
+              <iframe
+                title="Boho Venue Location Map"
+                src={getGoogleMapsEmbedUrl(mapDirectionsUrl, venue || "The Boho Desert Sands Oasis, Joshua Tree")}
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="opacity-95"
+              ></iframe>
             </div>
 
             <a
