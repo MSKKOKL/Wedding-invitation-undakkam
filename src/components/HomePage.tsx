@@ -132,7 +132,7 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
           {/* Fully small and icon only creator contacts upside */}
           <div className="flex items-center gap-1.5">
             <a
-              href="https://wa.me/919037415174" 
+              href="https://wa.me/917902205315" 
               target="_blank"
               rel="noopener noreferrer"
               className="w-7 h-7 rounded-full bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center transition-colors border border-emerald-100 dark:border-emerald-900/20 shadow-sm cursor-pointer"
@@ -142,7 +142,7 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
               <MessageCircle className="h-3.5 w-3.5" />
             </a>
             <a
-              href="https://instagram.com/saeed_karathur" 
+              href="https://instagram.com/m._saead" 
               target="_blank"
               rel="noopener noreferrer"
               className="w-7 h-7 rounded-full bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 text-rose-500 dark:text-rose-400 flex items-center justify-center transition-colors border border-rose-100 dark:border-rose-900/20 shadow-sm cursor-pointer"
@@ -672,7 +672,7 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
         {/* Fully small and icon only whatsapp & instagram */}
         <div className="flex items-center gap-2">
           <a
-            href="https://wa.me/919037415174" 
+            href="https://wa.me/917902205315" 
             target="_blank"
             rel="noopener noreferrer"
             className="w-8 h-8 rounded-full bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center transition-colors border border-emerald-100 dark:border-emerald-900/20 shadow-sm cursor-pointer"
@@ -682,7 +682,7 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
             <MessageCircle className="h-4 w-4" />
           </a>
           <a
-            href="https://instagram.com/saeed_karathur" 
+            href="https://instagram.com/m._saead" 
             target="_blank"
             rel="noopener noreferrer"
             className="w-8 h-8 rounded-full bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 text-rose-500 dark:text-rose-400 flex items-center justify-center transition-colors border border-rose-100 dark:border-rose-900/20 shadow-sm cursor-pointer"

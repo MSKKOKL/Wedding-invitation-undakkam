@@ -853,7 +853,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
               <span className="opacity-50">© {new Date().getFullYear()} • WEDDING INVITATION CREATED BY {developerName.toUpperCase()}</span>
               <div className="flex items-center gap-3 mt-0.5">
                 <a
-                  href="https://wa.me/919037415174"
+                  href="https://wa.me/917902205315"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`p-1.5 rounded-full transition-all hover:scale-115 ${
@@ -867,7 +867,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   <MessageCircle className="h-3.5 w-3.5" />
                 </a>
                 <a
-                  href="https://instagram.com/saeed_karathur"
+                  href="https://instagram.com/m._saead"
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`p-1.5 rounded-full transition-all hover:scale-115 ${
@@ -1172,7 +1172,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                 <span className="uppercase text-[8px] tracking-widest font-semibold text-amber-400/70">Created by MUHAMMED SAEAD</span>
                 <div className="flex items-center gap-3 mt-1">
                   <a
-                    href="https://wa.me/919037415174"
+                    href="https://wa.me/917902205315"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 transition-all hover:scale-110"
@@ -1181,7 +1181,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                     <MessageCircle className="h-3.5 w-3.5" />
                   </a>
                   <a
-                    href="https://instagram.com/saeed_karathur"
+                    href="https://instagram.com/m._saead"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-1.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 transition-all hover:scale-110"
@@ -1345,7 +1345,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
               <span className="uppercase text-[8px] tracking-widest font-semibold text-yellow-400/50">Created by MUHAMMED SAEAD</span>
               <div className="flex items-center gap-3 mt-1">
                 <a
-                  href="https://wa.me/919037415174"
+                  href="https://wa.me/917902205315"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 transition-all hover:scale-110"
@@ -1354,7 +1354,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   <MessageCircle className="h-3.5 w-3.5" />
                 </a>
                 <a
-                  href="https://instagram.com/saeed_karathur"
+                  href="https://instagram.com/m._saead"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 transition-all hover:scale-110"
@@ -1513,7 +1513,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
               <span className="uppercase text-[8px] tracking-wider font-semibold text-rose-400">Created by MUHAMMED SAEAD</span>
               <div className="flex items-center gap-3 mt-1">
                 <a
-                  href="https://wa.me/919037415174"
+                  href="https://wa.me/917902205315"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-rose-200 hover:bg-rose-300 text-rose-500 transition-all hover:scale-110"
@@ -1522,7 +1522,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   <MessageCircle className="h-3.5 w-3.5" />
                 </a>
                 <a
-                  href="https://instagram.com/saeed_karathur"
+                  href="https://instagram.com/m._saead"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-rose-200 hover:bg-rose-300 text-rose-500 transition-all hover:scale-110"
@@ -1649,7 +1649,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
               <span className="uppercase text-[8px] tracking-widest font-bold text-neutral-800">CREATED BY MUHAMMED SAEAD</span>
               <div className="flex items-center gap-3 mt-1">
                 <a
-                  href="https://wa.me/919037415174"
+                  href="https://wa.me/917902205315"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 transition-all hover:scale-110"
@@ -1658,7 +1658,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   <MessageCircle className="h-3.5 w-3.5" />
                 </a>
                 <a
-                  href="https://instagram.com/saeed_karathur"
+                  href="https://instagram.com/m._saead"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 transition-all hover:scale-110"
@@ -1815,7 +1815,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
               <span className="uppercase text-[8px] tracking-wider font-semibold text-[#BE7A5F]">Created by MUHAMMED SAEAD</span>
               <div className="flex items-center gap-3 mt-1">
                 <a
-                  href="https://wa.me/919037415174"
+                  href="https://wa.me/917902205315"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-[#E2B39E]/10 hover:bg-[#E2B39E]/20 text-[#BE7A5F] transition-all hover:scale-110"
@@ -1824,7 +1824,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   <MessageCircle className="h-3.5 w-3.5" />
                 </a>
                 <a
-                  href="https://instagram.com/saeed_karathur"
+                  href="https://instagram.com/m._saead"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-1.5 rounded-full bg-[#E2B39E]/10 hover:bg-[#E2B39E]/20 text-[#BE7A5F] transition-all hover:scale-110"
