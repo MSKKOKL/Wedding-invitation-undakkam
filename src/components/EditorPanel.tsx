@@ -539,6 +539,29 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
+                    Invitation Format & Layout
+                  </label>
+                  <select
+                    name="layoutType"
+                    value={data.layoutType || 'long-scroll'}
+                    onChange={(e) => {
+                      onChange({
+                        ...data,
+                        layoutType: e.target.value as any
+                      });
+                    }}
+                    className="w-full px-3 py-2 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-semibold"
+                  >
+                    <option value="long-scroll">📱 Multi-Page Scroll (3-4 Tall Pages) [Default]</option>
+                    <option value="compact">📜 Compact Card View (Single Short Page)</option>
+                  </select>
+                  <p className="text-[10px] text-neutral-500 mt-1">
+                    Multi-Page Scroll extends the card to feel like a premium, full-height multi-section wedding website.
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
                     Ambient Falling Animation (e.g. Snow)
                   </label>
                   <select

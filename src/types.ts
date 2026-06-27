@@ -47,6 +47,7 @@ export interface WeddingInvitation {
   developerContact?: string;
   
   // Custom Animations & Type effects
+  layoutType?: 'compact' | 'long-scroll';
   animationType?: 'none' | 'snow' | 'sparkles' | 'petals' | 'leaves' | 'glitter';
   enableTypewriter?: boolean;
 }

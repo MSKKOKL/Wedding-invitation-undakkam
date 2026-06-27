@@ -6,6 +6,7 @@ import EditorPanel from './components/EditorPanel';
 import GuestRSVPForm from './components/GuestRSVP';
 import DashboardRSVP from './components/DashboardRSVP';
 import MusicPlayer from './components/MusicPlayer';
+import HomePage from './components/HomePage';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   Heart,
@@ -40,11 +41,12 @@ const DEFAULT_INVITATION: WeddingInvitation = {
   brideParents: 'General & Mrs. Dmitry Rostov',
   welcomeMessage: 'We invite you to share our bliss as we commit our hearts and start our lifelong journey together under the canopy of autumn blooms.',
   animationType: 'petals',
+  layoutType: 'long-scroll',
   enableTypewriter: true
 };
 
 export default function App() {
-  const [activeView, setActiveView] = useState<'editor' | 'dashboard' | 'preview'>('editor');
+  const [activeView, setActiveView] = useState<'home' | 'editor' | 'dashboard' | 'preview'>('home');
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
   
   // Data State
@@ -367,6 +369,16 @@ export default function App() {
   }
 
   // --- CREATOR DESIGNER WORKSPACE ROUTE ---
+  if (activeView === 'home') {
+    return (
+      <HomePage
+        onStartCreating={() => setActiveView('editor')}
+        activeId={activeId}
+        onResumeDraft={() => setActiveView('editor')}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-neutral-100 dark:bg-neutral-950 text-neutral-800 dark:text-neutral-200 font-sans flex flex-col">
       {/* Dynamic Ambient Music for testing inside editor preview */}
@@ -375,6 +387,14 @@ export default function App() {
       {/* Editor Main Navbar */}
       <header className="sticky top-0 z-40 bg-white/80 dark:bg-neutral-900/80 backdrop-blur-md border-b border-neutral-200 dark:border-neutral-800 px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setActiveView('home')}
+            className="p-2.5 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-300 rounded-xl transition-all flex items-center justify-center cursor-pointer"
+            title="Back to Homepage & Details"
+            id="btn-back-to-home"
+          >
+            <Compass className="h-5 w-5 shrink-0" />
+          </button>
           <span className="p-2.5 bg-emerald-600 text-white rounded-xl shadow-md">
             <Heart className="h-6 w-6 fill-white" />
           </span>
@@ -396,6 +416,18 @@ export default function App() {
           {/* Workspaces View Toggle */}
           <div className="flex bg-neutral-100 dark:bg-neutral-950 p-1 rounded-xl border border-neutral-250 dark:border-neutral-800">
             <button
+              onClick={() => setActiveView('home')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                activeView === 'home'
+                  ? 'bg-white dark:bg-neutral-900 text-emerald-600 shadow'
+                  : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'
+              }`}
+              id="view-toggle-home"
+            >
+              <Compass className="h-3.5 w-3.5" />
+              Home Page
+            </button>
+            <button
               onClick={() => setActiveView('editor')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 activeView === 'editor'
@@ -405,7 +437,7 @@ export default function App() {
               id="view-toggle-editor"
             >
               <Laptop className="h-3.5 w-3.5" />
-              1. Card Designer
+              Card Designer
             </button>
             <button
               onClick={() => {

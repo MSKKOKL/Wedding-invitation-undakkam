@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { WeddingInvitation } from '../types';
 import { motion } from 'motion/react';
 import { Calendar, MapPin, Clock, Heart, Sparkles, Compass, ShieldAlert, User, Users, Phone, ExternalLink, Check, Map, Instagram, MessageCircle } from 'lucide-react';
@@ -89,6 +89,114 @@ function CountdownTimer({ targetDate, theme }: { targetDate: string; theme?: str
   );
 }
 
+function ThemedPage({
+  theme,
+  actualAnimationType,
+  children,
+  className = "",
+  id
+}: {
+  theme: string;
+  actualAnimationType: string;
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}) {
+  let baseClass = "";
+  let innerBorder = null;
+  let corners = null;
+  let bgPattern = null;
+
+  if (theme === 'islamic') {
+    baseClass = "relative w-full max-w-xl mx-auto overflow-hidden bg-emerald-950 text-amber-100 rounded-2xl shadow-2xl border-[12px] border-double border-amber-400/80 p-8 sm:p-12 font-serif text-center space-y-8 min-h-[600px] flex flex-col justify-center items-center relative";
+    bgPattern = <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(#fcd34d_1px,transparent_1px)] [background-size:16px_16px]" />;
+    corners = (
+      <>
+        <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-amber-300/40 rounded-tl-lg pointer-events-none" />
+        <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-amber-300/40 rounded-tr-lg pointer-events-none" />
+        <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-amber-300/40 rounded-bl-lg pointer-events-none" />
+        <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-amber-300/40 rounded-br-lg pointer-events-none" />
+      </>
+    );
+  } else if (theme === 'royal') {
+    baseClass = "relative w-full max-w-xl mx-auto overflow-hidden bg-gradient-to-b from-neutral-950 via-slate-950 to-neutral-950 text-yellow-100 rounded-2xl shadow-2xl border-4 border-yellow-500/80 p-8 sm:p-12 font-serif text-center min-h-[600px] flex flex-col justify-center items-center relative space-y-8";
+    innerBorder = <div className="absolute inset-4 border-2 border-yellow-500/30 rounded-lg pointer-events-none" />;
+    corners = (
+      <>
+        <div className="absolute top-6 left-6 w-8 h-8 border-t-2 border-l-2 border-yellow-400 pointer-events-none" />
+        <div className="absolute top-6 right-6 w-8 h-8 border-t-2 border-r-2 border-yellow-400 pointer-events-none" />
+        <div className="absolute bottom-6 left-6 w-8 h-8 border-b-2 border-l-2 border-yellow-400 pointer-events-none" />
+        <div className="absolute bottom-6 right-6 w-8 h-8 border-b-2 border-r-2 border-yellow-400 pointer-events-none" />
+      </>
+    );
+  } else if (theme === 'floral') {
+    baseClass = "relative w-full max-w-xl mx-auto overflow-hidden bg-white text-[#6D5A4E] rounded-2xl shadow-2xl border-8 border-rose-100 p-8 sm:p-12 font-serif text-center min-h-[600px] flex flex-col justify-center items-center relative space-y-8";
+    innerBorder = <div className="absolute inset-3 border border-rose-200/50 rounded pointer-events-none" />;
+    bgPattern = (
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-[radial-gradient(circle_at_top_left,rgba(251,113,133,0.15)_0%,transparent_70%)]" />
+        <div className="absolute bottom-0 right-0 w-32 h-32 bg-[radial-gradient(circle_at_bottom_right,rgba(251,113,133,0.15)_0%,transparent_70%)]" />
+      </div>
+    );
+    corners = (
+      <>
+        <span className="absolute top-4 left-4 text-rose-300 font-sans text-xs opacity-40 select-none">❀</span>
+        <span className="absolute top-4 right-4 text-rose-300 font-sans text-xs opacity-40 select-none">❀</span>
+        <span className="absolute bottom-4 left-4 text-rose-300 font-sans text-xs opacity-40 select-none">❀</span>
+        <span className="absolute bottom-4 right-4 text-rose-300 font-sans text-xs opacity-40 select-none">❀</span>
+      </>
+    );
+  } else if (theme === 'minimal') {
+    baseClass = "relative w-full max-w-xl mx-auto overflow-hidden bg-white text-neutral-800 rounded-2xl shadow-xl border border-neutral-200 p-8 sm:p-12 font-sans text-center min-h-[600px] flex flex-col justify-center items-center relative space-y-8";
+    innerBorder = <div className="absolute inset-4 border border-neutral-100 rounded-xl pointer-events-none" />;
+  } else if (theme === 'boho') {
+    baseClass = "relative w-full max-w-xl mx-auto overflow-hidden bg-[#FAF3EC] text-[#704235] rounded-2xl shadow-2xl border-4 border-[#BE7A5F]/20 p-8 sm:p-12 font-serif text-center min-h-[600px] flex flex-col justify-center items-center relative space-y-8";
+    bgPattern = <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(#704235_1px,transparent_1px)] [background-size:20px_20px]" />;
+    corners = (
+      <>
+        <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-[#BE7A5F]/30 pointer-events-none" />
+        <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-[#BE7A5F]/30 pointer-events-none" />
+        <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-[#BE7A5F]/30 pointer-events-none" />
+        <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-[#BE7A5F]/30 pointer-events-none" />
+      </>
+    );
+  }
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 50,
+        damping: 15,
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={containerVariants}
+      className={`${baseClass} ${className}`}
+      id={id}
+    >
+      <ParticleOverlay type={actualAnimationType as any} />
+      {bgPattern}
+      {innerBorder}
+      {corners}
+      <div className="w-full relative z-10 flex flex-col justify-center items-center flex-1 py-4 space-y-6">
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function InvitationCard({ data, isPreview = false, onRsvpClick }: InvitationCardProps) {
   const {
     groomName,
@@ -132,6 +240,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
     developerContact = "",
     
     animationType,
+    layoutType,
     enableTypewriter = true
   } = data;
 
@@ -190,6 +299,564 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
       } 
     }
   };
+
+  // Check if layout is 'long-scroll' (which is the modern default requested by user)
+  if (layoutType !== 'compact') {
+    return (
+      <div className="w-full space-y-8 select-none">
+        {/* Page 1: Welcome Cover */}
+        <ThemedPage theme={theme} actualAnimationType={actualAnimationType} id={`page-cover-${theme}`}>
+          {/* Cover Header */}
+          {theme === 'islamic' && (
+            <div className="space-y-3">
+              <motion.div variants={itemVariants} className="text-amber-300 text-lg font-bold tracking-widest">
+                بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+              </motion.div>
+              <div className="text-amber-250/80 text-[9px] tracking-[0.2em] uppercase font-sans font-bold">
+                In the Name of Allah, the Most Gracious, the Most Merciful
+              </div>
+            </div>
+          )}
+          {theme === 'royal' && (
+            <div className="space-y-2">
+              <div className="relative p-3 rounded-full bg-yellow-500/10 border border-yellow-500/20 mb-2">
+                <Sparkles className="h-6 w-6 text-yellow-400" />
+              </div>
+              <div className="text-yellow-400 text-xs tracking-[0.3em] uppercase font-sans font-bold">
+                ROYAL WEDDING INVITATION
+              </div>
+            </div>
+          )}
+          {theme === 'floral' && (
+            <div className="space-y-2 flex flex-col items-center">
+              <span className="text-2xl text-rose-300 animate-pulse">❀</span>
+              <div className="text-rose-400 text-xs tracking-[0.25em] uppercase font-sans font-bold">
+                Wedding Celebration
+              </div>
+            </div>
+          )}
+          {theme === 'minimal' && (
+            <div className="space-y-1">
+              <span className="text-neutral-300 tracking-widest text-[9px] uppercase font-mono font-bold">
+                / THE WEDDING INVITATION
+              </span>
+            </div>
+          )}
+          {theme === 'boho' && (
+            <div className="space-y-1">
+              <div className="text-[#BE7A5F] text-2xl font-serif">✦</div>
+              <span className="text-[#8B6458]/70 text-[10px] tracking-[0.2em] uppercase font-sans font-bold">
+                CELEBRATING LOVE & UNITY
+              </span>
+            </div>
+          )}
+
+          {/* Welcome Message */}
+          <motion.div variants={itemVariants} className={`text-xs sm:text-sm italic max-w-md leading-relaxed px-4 ${
+            theme === 'islamic' ? 'text-amber-200/80' :
+            theme === 'royal' ? 'text-yellow-100/70' :
+            theme === 'floral' ? 'text-[#6D5A4E]' :
+            theme === 'minimal' ? 'text-neutral-500 font-mono' : 'text-[#8B6458]'
+          }`}>
+            {welcomeMessage || (
+              theme === 'islamic' ? "And among His Signs is this, that He created for you mates from among yourselves, that ye may dwell in tranquillity with them, and He has put love and mercy between your (hearts)..." :
+              theme === 'royal' ? "Under the Grace of His Majesty, and with extreme honor, we invite you to celebrate the union of love, devotion, and family." :
+              theme === 'floral' ? "Love is a beautiful garden where two hearts bloom together as one. We invite you to join us as we start our forever journey." :
+              theme === 'minimal' ? "WE ARE GETTING MARRIED. WE WOULD BE ABSOLUTELY DELIGHTED IF YOU COULD JOIN US FOR THE CELEBRATION." :
+              "Like wild spirits guided by the stars, our paths have woven together. We invite you to sit under the sun and dance under the moon with us."
+            )}
+          </motion.div>
+
+          {/* Introduce Couple */}
+          <motion.div variants={itemVariants} className="space-y-4 py-2">
+            <p className={`uppercase text-[10px] tracking-[0.15em] font-sans font-bold ${
+              theme === 'islamic' ? 'text-amber-400/70' :
+              theme === 'royal' ? 'text-yellow-200/60' :
+              theme === 'floral' ? 'text-rose-400/80' :
+              theme === 'minimal' ? 'text-neutral-400' : 'text-[#BE7A5F]/80'
+            }`}>
+              {theme === 'royal' ? 'Request the pleasure of your company at the nuptials of' : 'We invite you to celebrate the marriage of'}
+            </p>
+            
+            <div className="space-y-3">
+              <h1 className={`text-3xl sm:text-5xl font-extrabold capitalize tracking-wide ${
+                theme === 'islamic' ? 'text-amber-200 font-serif' :
+                theme === 'royal' ? 'text-yellow-300 font-serif italic font-normal' :
+                theme === 'floral' ? 'text-rose-600 font-serif' :
+                theme === 'minimal' ? 'text-neutral-900 font-sans tracking-tight' : 'text-[#704235] font-serif'
+              }`}>
+                <TypewriterText text={groomName || "Groom Name"} enabled={enableTypewriter} delay={300} />
+              </h1>
+              
+              <div className="flex items-center justify-center gap-2">
+                <span className={`h-[1px] w-12 ${
+                  theme === 'islamic' ? 'bg-amber-400/30' :
+                  theme === 'royal' ? 'bg-yellow-500/30' :
+                  theme === 'floral' ? 'bg-rose-300/30' :
+                  theme === 'minimal' ? 'bg-neutral-200' : 'bg-[#BE7A5F]/30'
+                }`}></span>
+                {theme === 'minimal' ? (
+                  <span className="text-xs text-neutral-400 font-mono">&</span>
+                ) : (
+                  <Heart className={`h-4 w-4 animate-pulse fill-current ${
+                    theme === 'islamic' ? 'text-amber-400 fill-amber-400/10' :
+                    theme === 'royal' ? 'text-yellow-400 fill-yellow-400/10' :
+                    theme === 'floral' ? 'text-rose-400 fill-rose-400/10' : 'text-[#BE7A5F] fill-[#BE7A5F]/10'
+                  }`} />
+                )}
+                <span className={`h-[1px] w-12 ${
+                  theme === 'islamic' ? 'bg-amber-400/30' :
+                  theme === 'royal' ? 'bg-yellow-500/30' :
+                  theme === 'floral' ? 'bg-rose-300/30' :
+                  theme === 'minimal' ? 'bg-neutral-200' : 'bg-[#BE7A5F]/30'
+                }`}></span>
+              </div>
+              
+              <h1 className={`text-3xl sm:text-5xl font-extrabold capitalize tracking-wide ${
+                theme === 'islamic' ? 'text-amber-200 font-serif' :
+                theme === 'royal' ? 'text-yellow-300 font-serif italic font-normal' :
+                theme === 'floral' ? 'text-rose-600 font-serif' :
+                theme === 'minimal' ? 'text-neutral-900 font-sans tracking-tight' : 'text-[#704235] font-serif'
+              }`}>
+                <TypewriterText text={brideName || "Bride Name"} enabled={enableTypewriter} delay={1000} />
+              </h1>
+            </div>
+          </motion.div>
+
+          {/* Photo */}
+          {photoUrl && (
+            <motion.div variants={itemVariants} className={`my-4 max-w-sm mx-auto overflow-hidden rounded-2xl border shadow-lg ${
+              theme === 'islamic' ? 'border-amber-400/30' :
+              theme === 'royal' ? 'border-yellow-500/30' :
+              theme === 'floral' ? 'border-rose-200' :
+              theme === 'minimal' ? 'border-neutral-200' : 'border-[#BE7A5F]/20'
+            }`}>
+              <img referrerPolicy="no-referrer" src={photoUrl} alt="Wedding Couple" className="w-full h-44 sm:h-48 object-cover hover:scale-105 transition-transform duration-500" />
+            </motion.div>
+          )}
+
+          {/* Scroll Down */}
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            className={`text-[10px] tracking-widest uppercase opacity-75 mt-4 flex flex-col items-center gap-1 font-semibold font-sans ${
+              theme === 'islamic' ? 'text-amber-300' :
+              theme === 'royal' ? 'text-yellow-400' :
+              theme === 'floral' ? 'text-rose-500' :
+              theme === 'minimal' ? 'text-neutral-500' : 'text-[#BE7A5F]'
+            }`}
+          >
+            <span>Scroll Down for Details</span>
+            <span className="text-sm font-bold">▽</span>
+          </motion.div>
+        </ThemedPage>
+
+        {/* Page 2: Families, Parents & Loving Blessings */}
+        {(groomParents || brideParents || showFamilyDetails || showPrayers) && (
+          <ThemedPage theme={theme} actualAnimationType={actualAnimationType} id={`page-family-${theme}`}>
+            <motion.div variants={itemVariants} className="space-y-1 text-center">
+              <span className={`text-[10px] uppercase tracking-widest font-sans font-bold ${
+                theme === 'islamic' ? 'text-amber-400/80' :
+                theme === 'royal' ? 'text-yellow-400' :
+                theme === 'floral' ? 'text-rose-400' :
+                theme === 'minimal' ? 'text-neutral-400' : 'text-[#BE7A5F]'
+              }`}>
+                Family Blessings & Prayers
+              </span>
+              <h2 className={`text-xl font-bold font-serif ${
+                theme === 'islamic' ? 'text-amber-200' :
+                theme === 'royal' ? 'text-yellow-200' :
+                theme === 'floral' ? 'text-rose-700 font-sans' :
+                theme === 'minimal' ? 'text-neutral-800' : 'text-[#704235]'
+              }`}>
+                {theme === 'islamic' ? 'With Sincere Blessings' : 'With Joyful Hearts'}
+              </h2>
+            </motion.div>
+
+            {/* Parents List */}
+            {(groomParents || brideParents) && (
+              <motion.div variants={itemVariants} className={`grid grid-cols-2 gap-4 text-xs font-sans tracking-wider text-center w-full max-w-md mx-auto border-b pb-6 ${
+                theme === 'islamic' ? 'text-amber-300/85 border-amber-400/10' :
+                theme === 'royal' ? 'text-yellow-300/80 border-yellow-500/10' :
+                theme === 'floral' ? 'text-[#6D5A4E]/80 border-rose-100' :
+                theme === 'minimal' ? 'text-neutral-600 border-neutral-100' : 'text-[#8B6458]/80 border-[#BE7A5F]/10'
+              }`}>
+                <div>
+                  <p className={`text-[10px] uppercase font-bold tracking-widest mb-1 ${
+                    theme === 'islamic' ? 'text-amber-400/50' :
+                    theme === 'royal' ? 'text-yellow-500/50' :
+                    theme === 'floral' ? 'text-rose-400/60' :
+                    theme === 'minimal' ? 'text-neutral-400' : 'text-[#BE7A5F]/60'
+                  }`}>
+                    Groom's Parents
+                  </p>
+                  <p className="font-semibold text-xs sm:text-sm leading-relaxed">{groomParents || (theme === 'islamic' ? "Moosa & Shaheeda" : "The Groom's Family")}</p>
+                </div>
+                <div>
+                  <p className={`text-[10px] uppercase font-bold tracking-widest mb-1 ${
+                    theme === 'islamic' ? 'text-amber-400/50' :
+                    theme === 'royal' ? 'text-yellow-500/50' :
+                    theme === 'floral' ? 'text-rose-400/60' :
+                    theme === 'minimal' ? 'text-neutral-400' : 'text-[#BE7A5F]/60'
+                  }`}>
+                    Bride's Parents
+                  </p>
+                  <p className="font-semibold text-xs sm:text-sm leading-relaxed">{brideParents || (theme === 'islamic' ? "Muhammed & Naseera" : "The Bride's Family")}</p>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Family Members Detail List */}
+            {showFamilyDetails && (
+              <motion.div variants={itemVariants} className="w-full max-w-md mx-auto space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left font-sans">
+                  {/* Groom Family Details */}
+                  <div className={`p-4 rounded-xl border ${
+                    theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
+                    theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
+                    theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
+                    theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
+                  }`}>
+                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 ${
+                      theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
+                      theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
+                      theme === 'floral' ? 'text-rose-600 border-rose-100' :
+                      theme === 'minimal' ? 'text-neutral-800 border-neutral-200' : 'text-[#BE7A5F] border-[#BE7A5F]/10'
+                    }`}>
+                      Groom's Family
+                    </p>
+                    <div className="space-y-1.5 text-xs">
+                      <p><span className="opacity-70 font-semibold">Father:</span> {groomFather || "Moosa"}</p>
+                      <p><span className="opacity-70 font-semibold">Mother:</span> {groomMother || "Shaheeda"}</p>
+                      {(groomBrother || groomParents) && <p><span className="opacity-70 font-semibold">Brother:</span> {groomBrother || "Shamil"}</p>}
+                      {(groomSister || groomParents) && <p><span className="opacity-70 font-semibold">Sister:</span> {groomSister || "Ajmala Thasni"}</p>}
+                    </div>
+                  </div>
+
+                  {/* Bride Family Details */}
+                  <div className={`p-4 rounded-xl border ${
+                    theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
+                    theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
+                    theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
+                    theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
+                  }`}>
+                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 ${
+                      theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
+                      theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
+                      theme === 'floral' ? 'text-rose-600 border-rose-100' :
+                      theme === 'minimal' ? 'text-neutral-800 border-neutral-200' : 'text-[#BE7A5F] border-[#BE7A5F]/10'
+                    }`}>
+                      Bride's Family
+                    </p>
+                    <div className="space-y-1.5 text-xs">
+                      <p><span className="opacity-70 font-semibold">Father:</span> {brideFather || "Muhammed"}</p>
+                      <p><span className="opacity-70 font-semibold">Mother:</span> {brideMother || "Naseera"}</p>
+                      {brideBrother && <p><span className="opacity-70 font-semibold">Brother:</span> {brideBrother}</p>}
+                      {brideSister && <p><span className="opacity-70 font-semibold">Sister:</span> {brideSister}</p>}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Prayers Section */}
+            {showPrayers && (
+              <motion.div variants={itemVariants} className="w-full max-w-md mx-auto space-y-3 font-sans text-left mt-2">
+                <div className={`p-3 rounded-xl border text-center ${
+                  theme === 'islamic' ? 'bg-[#123620]/30 border-amber-400/10' :
+                  theme === 'royal' ? 'bg-yellow-500/5 border-yellow-500/10' :
+                  theme === 'floral' ? 'bg-rose-50/20 border-rose-100' :
+                  theme === 'minimal' ? 'bg-neutral-50/50 border-neutral-100' : 'bg-[#FAF3EC]/30 border-[#BE7A5F]/10'
+                }`}>
+                  <p className={`text-[9px] uppercase font-black tracking-wider ${
+                    theme === 'islamic' ? 'text-amber-400' :
+                    theme === 'royal' ? 'text-yellow-400' :
+                    theme === 'floral' ? 'text-rose-500' :
+                    theme === 'minimal' ? 'text-neutral-500' : 'text-[#BE7A5F]'
+                  }`}>
+                    {theme === 'islamic' ? 'Dua for the Newlyweds' : 'Wishes for the Couple'}
+                  </p>
+                  <p className={`text-xs italic mt-1 leading-relaxed ${
+                    theme === 'islamic' ? 'text-amber-100/90' :
+                    theme === 'royal' ? 'text-yellow-100/90' :
+                    theme === 'floral' ? 'text-[#6D5A4E]' :
+                    theme === 'minimal' ? 'text-neutral-600' : 'text-[#704235]'
+                  }`}>
+                    {duaCouple || (theme === 'islamic' ? "May Allah bless you both and unite you in goodness. (Barakallahu Lakuma)" : "May your marriage be blessed with eternal laughter, loving companionship, and joy.")}
+                  </p>
+                </div>
+              </motion.div>
+            )}
+
+            {/* Scroll Down */}
+            <motion.div
+              animate={{ y: [0, 8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className={`text-[10px] tracking-widest uppercase opacity-75 mt-4 flex flex-col items-center gap-1 font-semibold font-sans ${
+                theme === 'islamic' ? 'text-amber-300' :
+                theme === 'royal' ? 'text-yellow-400' :
+                theme === 'floral' ? 'text-rose-500' :
+                theme === 'minimal' ? 'text-neutral-500' : 'text-[#BE7A5F]'
+              }`}
+            >
+              <span>Scroll Down for Ceremony Schedule</span>
+              <span className="text-sm font-bold">▽</span>
+            </motion.div>
+          </ThemedPage>
+        )}
+
+        {/* Page 3: Ceremony Schedule, Timers & Countdown */}
+        <ThemedPage theme={theme} actualAnimationType={actualAnimationType} id={`page-ceremony-${theme}`}>
+          <motion.div variants={itemVariants} className="space-y-1 text-center">
+            <span className={`text-[10px] uppercase tracking-widest font-sans font-bold ${
+              theme === 'islamic' ? 'text-amber-400/80' :
+              theme === 'royal' ? 'text-yellow-400' :
+              theme === 'floral' ? 'text-rose-400' :
+              theme === 'minimal' ? 'text-neutral-400' : 'text-[#BE7A5F]'
+              }`}>
+              Schedule & Celebration
+            </span>
+            <h2 className={`text-xl font-bold font-serif ${
+              theme === 'islamic' ? 'text-amber-200' :
+              theme === 'royal' ? 'text-yellow-200' :
+              theme === 'floral' ? 'text-rose-700 font-sans' :
+              theme === 'minimal' ? 'text-neutral-800' : 'text-[#704235]'
+            }`}>
+              Wedding Schedule
+            </h2>
+          </motion.div>
+
+          <div className="w-full max-w-md mx-auto space-y-4">
+            {/* Reception Card */}
+            <motion.div variants={itemVariants} className={`p-5 rounded-2xl border text-left space-y-3 font-sans ${
+              theme === 'islamic' ? 'bg-[#123620]/60 border-amber-400/25' :
+              theme === 'royal' ? 'bg-neutral-900/50 border-yellow-500/20' :
+              theme === 'floral' ? 'bg-rose-50/50 border-rose-200/50' :
+              theme === 'minimal' ? 'bg-neutral-50 border-neutral-150' : 'bg-[#FAF3EC]/80 border-[#BE7A5F]/20'
+            }`}>
+              <div className="text-center pb-2 border-b border-dashed border-current opacity-60">
+                <span className={`text-xs uppercase tracking-widest font-bold ${
+                  theme === 'islamic' ? 'text-amber-300' :
+                  theme === 'royal' ? 'text-yellow-400' :
+                  theme === 'floral' ? 'text-rose-600' :
+                  theme === 'minimal' ? 'text-neutral-800' : 'text-[#704235]'
+                }`}>
+                  {theme === 'islamic' ? 'Wedding Feast & Reception' : 'Wedding Ceremony'}
+                </span>
+              </div>
+              <div className="flex items-start gap-3 text-sm">
+                <Calendar className={`h-4 w-4 shrink-0 mt-0.5 ${
+                  theme === 'islamic' ? 'text-amber-400' :
+                  theme === 'royal' ? 'text-yellow-400' :
+                  theme === 'floral' ? 'text-rose-500' :
+                  theme === 'minimal' ? 'text-neutral-800' : 'text-[#BE7A5F]'
+                }`} />
+                <span className="font-semibold">{formatDate(weddingDate)}</span>
+              </div>
+              <div className="flex items-start gap-3 text-sm">
+                <Clock className={`h-4 w-4 shrink-0 mt-0.5 ${
+                  theme === 'islamic' ? 'text-amber-400' :
+                  theme === 'royal' ? 'text-yellow-400' :
+                  theme === 'floral' ? 'text-rose-500' :
+                  theme === 'minimal' ? 'text-neutral-800' : 'text-[#BE7A5F]'
+                }`} />
+                <span>{weddingTime || "11:00 AM - 4:00 PM"}</span>
+              </div>
+              <div className="flex items-start gap-3 text-sm">
+                <MapPin className={`h-4 w-4 shrink-0 mt-0.5 ${
+                  theme === 'islamic' ? 'text-amber-400' :
+                  theme === 'royal' ? 'text-yellow-400' :
+                  theme === 'floral' ? 'text-rose-500' :
+                  theme === 'minimal' ? 'text-neutral-800' : 'text-[#BE7A5F]'
+                }`} />
+                <span className="leading-relaxed text-xs sm:text-sm">{venue || "Qatar Auditorium, Karathur, Malappuram, Kerala"}</span>
+              </div>
+              {receptionDetails && (
+                <div className="pt-2 text-xs italic border-t border-current opacity-70 leading-relaxed font-serif">
+                  {receptionDetails}
+                </div>
+              )}
+            </motion.div>
+
+            {/* Nikah Ceremony (Optional) */}
+            {showNikahDetails && (
+              <motion.div variants={itemVariants} className={`p-5 rounded-2xl border text-left space-y-3 font-sans ${
+                theme === 'islamic' ? 'bg-[#123620]/60 border-amber-400/25' :
+                theme === 'royal' ? 'bg-neutral-900/50 border-yellow-500/20' :
+                theme === 'floral' ? 'bg-rose-50/50 border-rose-200/50' :
+                theme === 'minimal' ? 'bg-neutral-50 border-neutral-150' : 'bg-[#FAF3EC]/80 border-[#BE7A5F]/20'
+              }`}>
+                <div className="text-center pb-2 border-b border-dashed border-current opacity-60">
+                  <span className={`text-xs uppercase tracking-widest font-bold ${
+                    theme === 'islamic' ? 'text-amber-300' :
+                    theme === 'royal' ? 'text-yellow-400' :
+                    theme === 'floral' ? 'text-rose-600' :
+                    theme === 'minimal' ? 'text-neutral-800' : 'text-[#704235]'
+                  }`}>
+                    The Holy Nikah Ceremony
+                  </span>
+                </div>
+                <div className="flex items-start gap-3 text-sm">
+                  <Calendar className={`h-4 w-4 shrink-0 mt-0.5 ${
+                    theme === 'islamic' ? 'text-amber-400' :
+                    theme === 'royal' ? 'text-yellow-400' :
+                    theme === 'floral' ? 'text-rose-500' :
+                    theme === 'minimal' ? 'text-neutral-800' : 'text-[#BE7A5F]'
+                  }`} />
+                  <span className="font-semibold">{formatDate(nikahDate || weddingDate)}</span>
+                </div>
+                <div className="flex items-start gap-3 text-sm">
+                  <Clock className={`h-4 w-4 shrink-0 mt-0.5 ${
+                    theme === 'islamic' ? 'text-amber-400' :
+                    theme === 'royal' ? 'text-yellow-400' :
+                    theme === 'floral' ? 'text-rose-500' :
+                    theme === 'minimal' ? 'text-neutral-800' : 'text-[#BE7A5F]'
+                  }`} />
+                  <span>{nikahTime || "09:00 AM"}</span>
+                </div>
+                <div className="flex items-start gap-3 text-sm">
+                  <MapPin className={`h-4 w-4 shrink-0 mt-0.5 ${
+                    theme === 'islamic' ? 'text-amber-400' :
+                    theme === 'royal' ? 'text-yellow-400' :
+                    theme === 'floral' ? 'text-rose-500' :
+                    theme === 'minimal' ? 'text-neutral-800' : 'text-[#BE7A5F]'
+                  }`} />
+                  <span className="leading-relaxed text-xs sm:text-sm">{nikahVenue || "Thavakkal Auditorium, Pooyikuth, Tirur"}</span>
+                </div>
+                <div className="pt-2 text-xs italic border-t border-current opacity-70 leading-relaxed font-serif">
+                  {nikahDetails || "The Nikah marriage registration & union ceremony under Almighty's eternal grace."}
+                </div>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Countdown Section */}
+          {showCountdown && weddingDate && (
+            <motion.div variants={itemVariants} className="space-y-2 py-2 w-full text-center">
+              <span className={`text-[10px] uppercase tracking-widest font-sans font-bold block ${
+                theme === 'islamic' ? 'text-amber-300' :
+                theme === 'royal' ? 'text-yellow-400' :
+                theme === 'floral' ? 'text-rose-500' :
+                theme === 'minimal' ? 'text-neutral-500' : 'text-[#BE7A5F]'
+              }`}>
+                Counting Down to the Big Day
+              </span>
+              <CountdownTimer targetDate={weddingDate} theme={theme} />
+            </motion.div>
+          )}
+
+          {/* Scroll Down */}
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            className={`text-[10px] tracking-widest uppercase opacity-75 mt-4 flex flex-col items-center gap-1 font-semibold font-sans ${
+              theme === 'islamic' ? 'text-amber-300' :
+              theme === 'royal' ? 'text-yellow-400' :
+              theme === 'floral' ? 'text-rose-500' :
+              theme === 'minimal' ? 'text-neutral-500' : 'text-[#BE7A5F]'
+            }`}
+          >
+            <span>Scroll Down to RSVP & Directions</span>
+            <span className="text-sm font-bold">▽</span>
+          </motion.div>
+        </ThemedPage>
+
+        {/* Page 4: Interactive Maps & RSVP Trigger */}
+        <ThemedPage theme={theme} actualAnimationType={actualAnimationType} id={`page-rsvp-${theme}`}>
+          <motion.div variants={itemVariants} className="space-y-1 text-center">
+            <span className={`text-[10px] uppercase tracking-widest font-sans font-bold ${
+              theme === 'islamic' ? 'text-amber-400/80' :
+              theme === 'royal' ? 'text-yellow-400' :
+              theme === 'floral' ? 'text-rose-400' :
+              theme === 'minimal' ? 'text-neutral-400' : 'text-[#BE7A5F]'
+              }`}>
+              Interactive Guide
+            </span>
+            <h2 className={`text-xl font-bold font-serif ${
+              theme === 'islamic' ? 'text-amber-200' :
+              theme === 'royal' ? 'text-yellow-200' :
+              theme === 'floral' ? 'text-rose-700 font-sans' :
+              theme === 'minimal' ? 'text-neutral-800' : 'text-[#704235]'
+            }`}>
+              Location & Attendance
+            </h2>
+          </motion.div>
+
+          {/* Venue Map */}
+          <motion.div variants={itemVariants} className="w-full max-w-sm space-y-3 font-sans">
+            {/* Map Illustration Box */}
+            <div className={`relative h-28 rounded-xl overflow-hidden border flex flex-col items-center justify-center p-4 text-center ${
+              theme === 'islamic' ? 'border-amber-400/20 bg-emerald-900/50 text-amber-200' :
+              theme === 'royal' ? 'border-yellow-500/20 bg-neutral-900/50 text-yellow-100' :
+              theme === 'floral' ? 'border-rose-200 bg-rose-50/50 text-[#6D5A4E]' :
+              theme === 'minimal' ? 'border-neutral-200 bg-neutral-50 text-neutral-600' : 'border-[#BE7A5F]/20 bg-[#FAF3EC]/80 text-[#704235]'
+            }`}>
+              <Map className="h-6 w-6 opacity-60 mb-1 animate-pulse" />
+              <p className="text-[10px] max-w-xs">{venue || "Qatar Auditorium, Karathur, Malappuram, Kerala"}</p>
+            </div>
+
+            <a
+              href={mapDirectionsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue || "Qatar Auditorium, Karathur, Malappuram, Kerala")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-1.5 px-5 py-2 font-bold tracking-wider text-xs rounded-full shadow-lg transition-all hover:scale-105 active:scale-95 uppercase ${
+                theme === 'islamic' ? 'bg-amber-400 hover:bg-amber-300 text-emerald-950' :
+                theme === 'royal' ? 'bg-yellow-400 hover:bg-yellow-300 text-neutral-950' :
+                theme === 'floral' ? 'bg-rose-500 hover:bg-rose-600 text-white' :
+                theme === 'minimal' ? 'bg-neutral-900 hover:bg-neutral-800 text-white' : 'bg-[#BE7A5F] hover:bg-[#A9664E] text-white'
+              }`}
+            >
+              <ExternalLink className="h-3 w-3" />
+              Get Directions on Map
+            </a>
+          </motion.div>
+
+          {/* RSVP Trigger Button */}
+          {onRsvpClick && (
+            <motion.div variants={itemVariants} className="w-full max-w-sm pt-2">
+              <button
+                onClick={onRsvpClick}
+                className={`w-full py-3.5 text-sm font-bold tracking-widest rounded-xl transition-all shadow-lg hover:scale-102 active:scale-98 uppercase font-sans cursor-pointer ${
+                  theme === 'islamic' ? 'bg-amber-400 hover:bg-amber-300 text-emerald-950 hover:shadow-amber-400/10' :
+                  theme === 'royal' ? 'bg-yellow-400 hover:bg-yellow-300 text-neutral-950 hover:shadow-yellow-400/10' :
+                  theme === 'floral' ? 'bg-rose-500 hover:bg-rose-600 text-white hover:shadow-rose-500/10' :
+                  theme === 'minimal' ? 'bg-neutral-900 hover:bg-neutral-800 text-white' : 'bg-[#BE7A5F] hover:bg-[#A9664E] text-white hover:shadow-[#BE7A5F]/10'
+                }`}
+              >
+                Honor Us with Your RSVP
+              </button>
+              <p className="text-[10px] opacity-60 text-center mt-2">
+                Please click the button to submit your attendance response below.
+              </p>
+            </motion.div>
+          )}
+
+          {/* Close & Footer */}
+          <motion.div variants={itemVariants} className="space-y-2 border-t pt-4 w-full text-center border-current opacity-60 font-serif">
+            {theme === 'islamic' ? (
+              <>
+                <p className="text-amber-300 text-xs italic tracking-widest">
+                  مَا شَاءَ اللَّهُ كَانَ وَمَا لَمْ يَشَأْ لَمْ يَكُنْ
+                </p>
+                <p className="text-[10px] uppercase font-sans font-bold">
+                  With lots of love, we look forward to celebrating with you!
+                </p>
+              </>
+            ) : (
+              <p className="text-xs italic leading-relaxed">
+                "Sharing this journey with you is the sweetest celebration." <br />
+                With warmest love, {groomName || "Nabeel"} & {brideName || "Nasla"}
+              </p>
+            )}
+
+            <div className="pt-2 text-[8px] tracking-widest uppercase flex flex-col items-center justify-center font-sans opacity-50">
+              <span>© {new Date().getFullYear()} • WEDDING INVITATION CREATED BY {developerName.toUpperCase()}</span>
+            </div>
+          </motion.div>
+        </ThemedPage>
+      </div>
+    );
+  }
 
   // Render themes
   switch (theme) {
