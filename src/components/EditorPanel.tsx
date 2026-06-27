@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { WeddingInvitation, PRESET_PHOTOS, PRESET_MUSIC } from '../types';
 import ThemeSelector from './ThemeSelector';
-import { Calendar, MapPin, Clock, Heart, Sparkles, Music, Camera, Info, Save, Share2, Clipboard, Globe, Upload, Loader2 } from 'lucide-react';
+import { Calendar, MapPin, Clock, Heart, Sparkles, Music, Camera, Info, Save, Share2, Clipboard, Globe, Upload, Loader2, Send, MessageCircle, Facebook } from 'lucide-react';
 import { storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -929,34 +929,109 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
         </button>
 
         {/* Share Section (Shows if link is generated) */}
-        {shareUrl && (
-          <div className="p-4 bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/50 dark:border-emerald-800/30 rounded-xl space-y-3">
-            <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold text-sm">
-              <Globe className="h-4 w-4" />
-              Invitation Created Successfully!
+        {shareUrl && (() => {
+          const shareText = `You are cordially invited to the wedding of ${data.groomName || "Nabeel"} & ${data.brideName || "Nasla"}! Please view our digital wedding card & RSVP here:`;
+          const handleNativeShare = async () => {
+            if (navigator.share) {
+              try {
+                await navigator.share({
+                  title: `Wedding Invitation - ${data.groomName || "Nabeel"} & ${data.brideName || "Nasla"}`,
+                  text: shareText,
+                  url: shareUrl,
+                });
+              } catch (err) {
+                console.log("Error sharing", err);
+              }
+            } else {
+              copyToClipboard();
+            }
+          };
+
+          return (
+            <div className="p-4 bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/50 dark:border-emerald-800/30 rounded-xl space-y-4">
+              <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold text-sm">
+                <Globe className="h-4 w-4" />
+                Invitation Created Successfully!
+              </div>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                Your guest invitation card is live. Send this specific link to your friends, family, and loved ones to request RSVPs:
+              </p>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={shareUrl}
+                  readOnly
+                  className="w-full text-xs px-3 py-2.5 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-lg text-neutral-600 dark:text-neutral-400 focus:outline-none"
+                  id="share-url-input"
+                />
+                <button
+                  onClick={copyToClipboard}
+                  className="p-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all shadow-sm flex items-center justify-center shrink-0 cursor-pointer"
+                  title="Copy Link to Clipboard"
+                  id="btn-copy-url"
+                >
+                  {copied ? <span className="text-xs px-1 font-bold">Copied!</span> : <Clipboard className="h-4 w-4" />}
+                </button>
+              </div>
+
+              {/* Social Share Buttons */}
+              <div className="pt-3 border-t border-emerald-200/40 dark:border-emerald-800/20 space-y-3">
+                <p className="text-[10px] uppercase tracking-wider font-extrabold text-emerald-800 dark:text-emerald-400 text-center">
+                  Share Wedding Invitation
+                </p>
+
+                <div className="grid grid-cols-1">
+                  <button
+                    onClick={handleNativeShare}
+                    className="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold tracking-wider uppercase inline-flex items-center justify-center gap-2 transition-all hover:scale-101 active:scale-99 shadow cursor-pointer"
+                    id="btn-direct-share"
+                  >
+                    <Share2 className="h-4 w-4" />
+                    Direct Share Link
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <a
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 px-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-emerald-300 dark:hover:border-emerald-800 text-neutral-700 dark:text-neutral-300 text-xs font-bold rounded-lg inline-flex flex-col items-center justify-center gap-1 transition-all hover:scale-105"
+                    title="Share on WhatsApp"
+                    id="link-share-whatsapp"
+                  >
+                    <MessageCircle className="h-4 w-4 text-emerald-500" />
+                    <span className="text-[10px]">WhatsApp</span>
+                  </a>
+
+                  <a
+                    href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 px-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-emerald-300 dark:hover:border-emerald-800 text-neutral-700 dark:text-neutral-300 text-xs font-bold rounded-lg inline-flex flex-col items-center justify-center gap-1 transition-all hover:scale-105"
+                    title="Share on Telegram"
+                    id="link-share-telegram"
+                  >
+                    <Send className="h-4 w-4 text-sky-500" />
+                    <span className="text-[10px]">Telegram</span>
+                  </a>
+
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="py-2.5 px-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:border-emerald-300 dark:hover:border-emerald-800 text-neutral-700 dark:text-neutral-300 text-xs font-bold rounded-lg inline-flex flex-col items-center justify-center gap-1 transition-all hover:scale-105"
+                    title="Share on Facebook"
+                    id="link-share-facebook"
+                  >
+                    <Facebook className="h-4 w-4 text-blue-600" />
+                    <span className="text-[10px]">Facebook</span>
+                  </a>
+                </div>
+              </div>
             </div>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400">
-              Your guest invitation card is live. Send this specific link to your friends, family, and loved ones to request RSVPs:
-            </p>
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                value={shareUrl}
-                readOnly
-                className="w-full text-xs px-3 py-2.5 bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-lg text-neutral-600 dark:text-neutral-400 focus:outline-none"
-                id="share-url-input"
-              />
-              <button
-                onClick={copyToClipboard}
-                className="p-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-all shadow-sm flex items-center justify-center shrink-0"
-                title="Copy Link to Clipboard"
-                id="btn-copy-url"
-              >
-                {copied ? <span className="text-xs px-1">Copied!</span> : <Clipboard className="h-4 w-4" />}
-              </button>
-            </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
     </div>
   );

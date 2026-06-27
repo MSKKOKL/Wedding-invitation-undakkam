@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { WeddingInvitation } from '../types';
 import { motion } from 'motion/react';
-import { Calendar, MapPin, Clock, Heart, Sparkles, Compass, ShieldAlert, User, Users, Phone, ExternalLink, Check, Map, Instagram, MessageCircle } from 'lucide-react';
+import { Calendar, MapPin, Clock, Heart, Sparkles, Compass, ShieldAlert, User, Users, Phone, ExternalLink, Check, Map, Instagram, MessageCircle, Share2, Send, Facebook, Copy } from 'lucide-react';
 import ParticleOverlay from './ParticleOverlay';
 import TypewriterText from './TypewriterText';
 
@@ -509,15 +509,15 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
             {/* Family Members Detail List */}
             {showFamilyDetails && (
               <motion.div variants={itemVariants} className="w-full max-w-md mx-auto space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left font-sans">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center font-sans">
                   {/* Groom Family Details */}
-                  <div className={`p-4 rounded-xl border ${
+                  <div className={`p-4 rounded-xl border text-center ${
                     theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
                     theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
                     theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
                     theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
                   }`}>
-                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 ${
+                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 text-center ${
                       theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
                       theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
                       theme === 'floral' ? 'text-rose-600 border-rose-100' :
@@ -525,7 +525,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                     }`}>
                       Groom's Family
                     </p>
-                    <div className="space-y-1.5 text-xs">
+                    <div className="space-y-1.5 text-xs text-center">
                       <p><span className="opacity-70 font-semibold">Father:</span> {groomFather || "Moosa"}</p>
                       <p><span className="opacity-70 font-semibold">Mother:</span> {groomMother || "Shaheeda"}</p>
                       {(groomBrother || groomParents) && <p><span className="opacity-70 font-semibold">Brother:</span> {groomBrother || "Shamil"}</p>}
@@ -534,13 +534,13 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   </div>
 
                   {/* Bride Family Details */}
-                  <div className={`p-4 rounded-xl border ${
+                  <div className={`p-4 rounded-xl border text-center ${
                     theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
                     theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
                     theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
                     theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
                   }`}>
-                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 ${
+                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 text-center ${
                       theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
                       theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
                       theme === 'floral' ? 'text-rose-600 border-rose-100' :
@@ -548,7 +548,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                     }`}>
                       Bride's Family
                     </p>
-                    <div className="space-y-1.5 text-xs">
+                    <div className="space-y-1.5 text-xs text-center">
                       <p><span className="opacity-70 font-semibold">Father:</span> {brideFather || "Muhammed"}</p>
                       <p><span className="opacity-70 font-semibold">Mother:</span> {brideMother || "Naseera"}</p>
                       {brideBrother && <p><span className="opacity-70 font-semibold">Brother:</span> {brideBrother}</p>}
@@ -1085,15 +1085,15 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
 
           {/* Section 9: Family details */}
           {showFamilyDetails && (
-            <motion.div variants={itemVariants} className="space-y-4 text-left border-t border-amber-400/10 pt-6">
+            <motion.div variants={itemVariants} className="space-y-4 text-center border-t border-amber-400/10 pt-6">
               <div className="text-center">
                 <span className="text-xs uppercase tracking-widest font-sans font-bold text-amber-300 block">Family Members</span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
                 {/* Groom Family */}
-                <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2">
-                  <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1">Groom's Family</p>
-                  <div className="space-y-1 text-xs text-amber-100/90 font-sans">
+                <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2 text-center">
+                  <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1 text-center">Groom's Family</p>
+                  <div className="space-y-1 text-xs text-amber-100/90 font-sans text-center">
                     <p><span className="text-amber-400/60 font-semibold">Father:</span> {groomFather || "Moosa"}</p>
                     <p><span className="text-amber-400/60 font-semibold">Mother:</span> {groomMother || "Shaheeda"}</p>
                     {(groomBrother || groomParents) && <p><span className="text-amber-400/60 font-semibold">Brother:</span> {groomBrother || "Shamil"}</p>}
@@ -1101,9 +1101,9 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   </div>
                 </div>
                 {/* Bride Family */}
-                <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2">
-                  <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1">Bride's Family</p>
-                  <div className="space-y-1 text-xs text-amber-100/90 font-sans">
+                <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2 text-center">
+                  <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1 text-center">Bride's Family</p>
+                  <div className="space-y-1 text-xs text-amber-100/90 font-sans text-center">
                     <p><span className="text-amber-400/60 font-semibold">Father:</span> {brideFather || "Muhammed"}</p>
                     <p><span className="text-amber-400/60 font-semibold">Mother:</span> {brideMother || "Naseera"}</p>
                     {brideBrother && <p><span className="text-amber-400/60 font-semibold">Brother:</span> {brideBrother}</p>}
