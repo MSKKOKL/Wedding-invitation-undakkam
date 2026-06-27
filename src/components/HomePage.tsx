@@ -21,7 +21,9 @@ import {
   BookOpen,
   Leaf,
   Layers,
-  HelpCircle
+  HelpCircle,
+  Instagram,
+  MessageCircle
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -111,24 +113,55 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
           <span className="p-1.5 bg-emerald-600 text-white rounded-lg shadow-sm">
             <Heart className="h-5 w-5 fill-white" />
           </span>
-          <span className="font-serif font-extrabold text-base tracking-tight text-neutral-900 dark:text-neutral-50">
-            Wedding Invite Builder
-          </span>
+          <div className="flex flex-col">
+            <span className="font-serif font-extrabold text-sm sm:text-base tracking-tight text-neutral-900 dark:text-neutral-50 leading-tight">
+              Wedding Invite Builder
+            </span>
+            <span className="text-[9px] sm:text-[10px] text-neutral-400 dark:text-neutral-500 font-sans font-medium">
+              by Muhammed Saead
+            </span>
+          </div>
         </div>
-        <nav className="hidden md:flex items-center gap-6 text-xs font-semibold text-neutral-500 dark:text-neutral-400">
+        <nav className="hidden lg:flex items-center gap-6 text-xs font-semibold text-neutral-500 dark:text-neutral-400">
           <a href="#features" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Features</a>
           <a href="#themes" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Design Themes</a>
           <a href="#how-it-works" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">How It Works</a>
           <a href="#faq" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">FAQ</a>
         </nav>
-        <button
-          onClick={onStartCreating}
-          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-          id="btn-nav-launch-designer"
-        >
-          <PlusCircle className="h-3.5 w-3.5" />
-          Launch Designer
-        </button>
+        <div className="flex items-center gap-3">
+          {/* Fully small and icon only creator contacts upside */}
+          <div className="flex items-center gap-1.5">
+            <a
+              href="https://wa.me/919037415174" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-7 h-7 rounded-full bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center transition-colors border border-emerald-100 dark:border-emerald-900/20 shadow-sm cursor-pointer"
+              title="Chat with Muhammed Saead on WhatsApp"
+              id="creator-whatsapp-top"
+            >
+              <MessageCircle className="h-3.5 w-3.5" />
+            </a>
+            <a
+              href="https://instagram.com/saeed_karathur" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-7 h-7 rounded-full bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 text-rose-500 dark:text-rose-400 flex items-center justify-center transition-colors border border-rose-100 dark:border-rose-900/20 shadow-sm cursor-pointer"
+              title="Follow Muhammed Saead on Instagram"
+              id="creator-instagram-top"
+            >
+              <Instagram className="h-3.5 w-3.5" />
+            </a>
+          </div>
+
+          <button
+            onClick={onStartCreating}
+            className="px-3 sm:px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md flex items-center gap-1 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+            id="btn-nav-launch-designer"
+          >
+            <PlusCircle className="h-3.5 w-3.5" />
+            Launch Designer
+          </button>
+        </div>
       </header>
 
       {/* Floating Draft Resume Alert Banner */}
@@ -628,6 +661,38 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
           </div>
         </div>
       </section>
+
+      {/* Footer Creator Details */}
+      <footer className="border-t border-neutral-200/50 dark:border-neutral-800/60 mt-12 pt-8 pb-4 text-center max-w-7xl mx-auto px-6 w-full flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 font-sans">
+          <span>© {new Date().getFullYear()} • Developed by</span>
+          <span className="font-serif font-bold text-neutral-800 dark:text-neutral-105">Muhammed Saead</span>
+        </div>
+        
+        {/* Fully small and icon only whatsapp & instagram */}
+        <div className="flex items-center gap-2">
+          <a
+            href="https://wa.me/919037415174" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-8 h-8 rounded-full bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center transition-colors border border-emerald-100 dark:border-emerald-900/20 shadow-sm cursor-pointer"
+            title="Chat on WhatsApp"
+            id="creator-whatsapp"
+          >
+            <MessageCircle className="h-4 w-4" />
+          </a>
+          <a
+            href="https://instagram.com/saeed_karathur" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-8 h-8 rounded-full bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/40 text-rose-500 dark:text-rose-400 flex items-center justify-center transition-colors border border-rose-100 dark:border-rose-900/20 shadow-sm cursor-pointer"
+            title="Follow on Instagram"
+            id="creator-instagram"
+          >
+            <Instagram className="h-4 w-4" />
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }

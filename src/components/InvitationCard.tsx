@@ -236,7 +236,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
     
     venuePhotoUrl,
     mapDirectionsUrl,
-    developerName = "Junu",
+    developerName = "MUHAMMED SAEAD",
     developerContact = "",
     
     animationType,
@@ -849,8 +849,28 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
               </p>
             )}
 
-            <div className="pt-2 text-[8px] tracking-widest uppercase flex flex-col items-center justify-center font-sans opacity-50">
+            <div className="pt-2 text-[8px] tracking-widest uppercase flex flex-col items-center justify-center font-sans opacity-50 gap-1.5">
               <span>© {new Date().getFullYear()} • WEDDING INVITATION CREATED BY {developerName.toUpperCase()}</span>
+              <div className="flex items-center gap-3 mt-0.5">
+                <a
+                  href="https://wa.me/917902205315"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1 rounded-full bg-neutral-900/10 dark:bg-white/10 hover:bg-neutral-900/20 dark:hover:bg-white/20 text-neutral-800 dark:text-neutral-200 transition-all hover:scale-110"
+                  title="WhatsApp"
+                >
+                  <MessageCircle className="h-3 w-3" />
+                </a>
+                <a
+                  href="https://instagram.com/m.__saead"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1 rounded-full bg-neutral-900/10 dark:bg-white/10 hover:bg-neutral-900/20 dark:hover:bg-white/20 text-neutral-800 dark:text-neutral-200 transition-all hover:scale-110"
+                  title="Instagram"
+                >
+                  <Instagram className="h-3 w-3" />
+                </a>
+              </div>
             </div>
           </motion.div>
         </ThemedPage>
