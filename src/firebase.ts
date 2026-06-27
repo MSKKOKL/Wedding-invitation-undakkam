@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDoc, doc, setDoc, getDocs, query, where, orderBy, updateDoc, deleteDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDoc, doc, setDoc, getDocs, query, where, orderBy, updateDoc, deleteDoc, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
@@ -78,5 +78,6 @@ export {
   where,
   orderBy,
   updateDoc,
-  deleteDoc
+  deleteDoc,
+  onSnapshot
 };

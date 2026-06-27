@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { db, collection, onSnapshot } from '../firebase';
 import {
   Heart,
   Sparkles,
@@ -35,6 +36,36 @@ interface HomePageProps {
 export default function HomePage({ onStartCreating, activeId, onResumeDraft }: HomePageProps) {
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
   const [selectedDemoTheme, setSelectedDemoTheme] = useState<'islamic' | 'royal' | 'floral' | 'boho' | 'minimal'>('royal');
+  const [stats, setStats] = useState({ invitationsCount: 0, rsvpsCount: 0, loading: true });
+
+  useEffect(() => {
+    // Real-time listener for invitations collection
+    const unsubscribeInvitations = onSnapshot(collection(db, 'invitations'), (snapshot) => {
+      setStats(prev => ({
+        ...prev,
+        invitationsCount: snapshot.size,
+        loading: false
+      }));
+    }, (error) => {
+      console.error("Error listening to invitations:", error);
+    });
+
+    // Real-time listener for RSVPs collection
+    const unsubscribeRsvps = onSnapshot(collection(db, 'rsvps'), (snapshot) => {
+      setStats(prev => ({
+        ...prev,
+        rsvpsCount: snapshot.size,
+        loading: false
+      }));
+    }, (error) => {
+      console.error("Error listening to RSVPs:", error);
+    });
+
+    return () => {
+      unsubscribeInvitations();
+      unsubscribeRsvps();
+    };
+  }, []);
 
   const faqs = [
     {
@@ -235,6 +266,8 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
               <ArrowRight className="h-4 w-4" />
             </a>
           </motion.div>
+
+
         </motion.div>
 
         {/* Hero Interactive Device Mockup Frame */}
@@ -635,6 +668,64 @@ export default function HomePage({ onStartCreating, activeId, onResumeDraft }: H
               </AnimatePresence>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Live Real-Time Platform Statistics Bar */}
+      <section className="py-8 px-6 max-w-5xl mx-auto w-full">
+        <div className="bg-white dark:bg-neutral-900/60 backdrop-blur-md border border-emerald-500/15 dark:border-emerald-500/10 rounded-2xl p-6 relative overflow-hidden shadow-sm">
+          {/* Subtle grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98105_1px,transparent_1px),linear-gradient(to_bottom,#10b98105_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-1.5 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
+                <span className="text-[10px] uppercase font-mono font-extrabold tracking-widest text-emerald-600 dark:text-emerald-400">
+                  Live Platform Metrics (Synced)
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-serif font-extrabold text-neutral-800 dark:text-neutral-100">
+                Real-Time Platform Engagement
+              </h3>
+              <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-md">
+                Directly connected to our live database. Statistics refresh dynamically as designers publish cards and guests confirm RSVPs.
+              </p>
+            </div>
+
+            <div className="flex flex-row items-center gap-6 sm:gap-10 divide-x divide-neutral-100 dark:divide-neutral-800 text-center shrink-0 w-full md:w-auto justify-center md:justify-end border-t md:border-t-0 pt-4 md:pt-0 border-neutral-150 dark:border-neutral-800">
+              <div className="space-y-1 px-4 sm:px-6">
+                <div className="text-2xl sm:text-3xl font-serif font-black text-neutral-900 dark:text-neutral-50 flex items-center justify-center">
+                  {stats.loading ? (
+                    <span className="inline-block h-8 w-14 bg-neutral-200 dark:bg-neutral-800 animate-pulse rounded" />
+                  ) : (
+                    <span className="tabular-nums">{stats.invitationsCount}</span>
+                  )}
+                  <Heart className="h-5 w-5 ml-2 text-rose-500 fill-rose-500" />
+                </div>
+                <p className="text-[10px] uppercase tracking-widest font-sans font-bold text-neutral-400 dark:text-neutral-500">
+                  Cards Designed
+                </p>
+              </div>
+
+              <div className="space-y-1 pl-6 sm:pl-10">
+                <div className="text-2xl sm:text-3xl font-serif font-black text-neutral-900 dark:text-neutral-50 flex items-center justify-center">
+                  {stats.loading ? (
+                    <span className="inline-block h-8 w-14 bg-neutral-200 dark:bg-neutral-800 animate-pulse rounded" />
+                  ) : (
+                    <span className="tabular-nums">{stats.rsvpsCount}</span>
+                  )}
+                  <Users className="h-5 w-5 ml-2 text-emerald-600" />
+                </div>
+                <p className="text-[10px] uppercase tracking-widest font-sans font-bold text-neutral-400 dark:text-neutral-500">
+                  RSVPs Synced
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
