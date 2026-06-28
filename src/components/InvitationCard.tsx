@@ -244,6 +244,9 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
     enableTypewriter = true
   } = data;
 
+  const hasGroomFamily = !!(groomFather?.trim() || groomMother?.trim() || groomBrother?.trim() || groomSister?.trim());
+  const hasBrideFamily = !!(brideFather?.trim() || brideMother?.trim() || brideBrother?.trim() || brideSister?.trim());
+
   // Determine actual animation type to use based on settings and theme
   const actualAnimationType = animationType || (
     theme === 'islamic' ? 'sparkles' :
@@ -523,7 +526,7 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   }`}>
                     Groom's Parents
                   </p>
-                  <p className="font-semibold text-xs sm:text-sm leading-relaxed">{groomParents || (theme === 'islamic' ? "Moosa & Shaheeda" : "The Groom's Family")}</p>
+                  <p className="font-semibold text-xs sm:text-sm leading-relaxed">{groomParents || "The Groom's Family"}</p>
                 </div>
                 <div>
                   <p className={`text-[10px] uppercase font-bold tracking-widest mb-1 ${
@@ -534,60 +537,66 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
                   }`}>
                     Bride's Parents
                   </p>
-                  <p className="font-semibold text-xs sm:text-sm leading-relaxed">{brideParents || (theme === 'islamic' ? "Muhammed & Naseera" : "The Bride's Family")}</p>
+                  <p className="font-semibold text-xs sm:text-sm leading-relaxed">{brideParents || "The Bride's Family"}</p>
                 </div>
               </motion.div>
             )}
 
             {/* Family Members Detail List */}
-            {showFamilyDetails && (
+            {showFamilyDetails && (hasGroomFamily || hasBrideFamily) && (
               <motion.div variants={itemVariants} className="w-full max-w-md mx-auto space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center font-sans">
+                <div className={`grid gap-4 text-center font-sans ${
+                  hasGroomFamily && hasBrideFamily ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 max-w-xs mx-auto'
+                }`}>
                   {/* Groom Family Details */}
-                  <div className={`p-4 rounded-xl border text-center ${
-                    theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
-                    theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
-                    theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
-                    theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
-                  }`}>
-                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 text-center ${
-                      theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
-                      theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
-                      theme === 'floral' ? 'text-rose-600 border-rose-100' :
-                      theme === 'minimal' ? 'text-neutral-800 border-neutral-200' : 'text-[#BE7A5F] border-[#BE7A5F]/10'
+                  {hasGroomFamily && (
+                    <div className={`p-4 rounded-xl border text-center ${
+                      theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
+                      theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
+                      theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
+                      theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
                     }`}>
-                      Groom's Family
-                    </p>
-                    <div className="space-y-1.5 text-xs text-center">
-                      <p><span className="opacity-70 font-semibold">Father:</span> {groomFather || "Moosa"}</p>
-                      <p><span className="opacity-70 font-semibold">Mother:</span> {groomMother || "Shaheeda"}</p>
-                      {(groomBrother || groomParents) && <p><span className="opacity-70 font-semibold">Brother:</span> {groomBrother || "Shamil"}</p>}
-                      {(groomSister || groomParents) && <p><span className="opacity-70 font-semibold">Sister:</span> {groomSister || "Ajmala Thasni"}</p>}
+                      <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 text-center ${
+                        theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
+                        theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
+                        theme === 'floral' ? 'text-rose-600 border-rose-100' :
+                        theme === 'minimal' ? 'text-neutral-800 border-neutral-200' : 'text-[#BE7A5F] border-[#BE7A5F]/10'
+                      }`}>
+                        Groom's Family
+                      </p>
+                      <div className="space-y-1.5 text-xs text-center">
+                        {groomFather && <p><span className="opacity-70 font-semibold">Father:</span> {groomFather}</p>}
+                        {groomMother && <p><span className="opacity-70 font-semibold">Mother:</span> {groomMother}</p>}
+                        {groomBrother && <p><span className="opacity-70 font-semibold">Brother:</span> {groomBrother}</p>}
+                        {groomSister && <p><span className="opacity-70 font-semibold">Sister:</span> {groomSister}</p>}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {/* Bride Family Details */}
-                  <div className={`p-4 rounded-xl border text-center ${
-                    theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
-                    theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
-                    theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
-                    theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
-                  }`}>
-                    <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 text-center ${
-                      theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
-                      theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
-                      theme === 'floral' ? 'text-rose-600 border-rose-100' :
-                      theme === 'minimal' ? 'text-neutral-800 border-neutral-200' : 'text-[#BE7A5F] border-[#BE7A5F]/10'
+                  {hasBrideFamily && (
+                    <div className={`p-4 rounded-xl border text-center ${
+                      theme === 'islamic' ? 'bg-[#123620]/40 border-amber-400/15 text-amber-100/90' :
+                      theme === 'royal' ? 'bg-yellow-950/20 border-yellow-500/15 text-yellow-100/90' :
+                      theme === 'floral' ? 'bg-rose-50/50 border-rose-100 text-[#6D5A4E]/90' :
+                      theme === 'minimal' ? 'bg-neutral-50 border-neutral-150 text-neutral-600' : 'bg-[#FAF3EC]/60 border-[#BE7A5F]/15 text-[#704235]'
                     }`}>
-                      Bride's Family
-                    </p>
-                    <div className="space-y-1.5 text-xs text-center">
-                      <p><span className="opacity-70 font-semibold">Father:</span> {brideFather || "Muhammed"}</p>
-                      <p><span className="opacity-70 font-semibold">Mother:</span> {brideMother || "Naseera"}</p>
-                      {brideBrother && <p><span className="opacity-70 font-semibold">Brother:</span> {brideBrother}</p>}
-                      {brideSister && <p><span className="opacity-70 font-semibold">Sister:</span> {brideSister}</p>}
+                      <p className={`text-[10px] font-bold uppercase tracking-wider border-b pb-1.5 mb-2 text-center ${
+                        theme === 'islamic' ? 'text-amber-300 border-amber-400/10' :
+                        theme === 'royal' ? 'text-yellow-400 border-yellow-500/10' :
+                        theme === 'floral' ? 'text-rose-600 border-rose-100' :
+                        theme === 'minimal' ? 'text-neutral-800 border-neutral-200' : 'text-[#BE7A5F] border-[#BE7A5F]/10'
+                      }`}>
+                        Bride's Family
+                      </p>
+                      <div className="space-y-1.5 text-xs text-center">
+                        {brideFather && <p><span className="opacity-70 font-semibold">Father:</span> {brideFather}</p>}
+                        {brideMother && <p><span className="opacity-70 font-semibold">Mother:</span> {brideMother}</p>}
+                        {brideBrother && <p><span className="opacity-70 font-semibold">Brother:</span> {brideBrother}</p>}
+                        {brideSister && <p><span className="opacity-70 font-semibold">Sister:</span> {brideSister}</p>}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </motion.div>
             )}
@@ -975,11 +984,11 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
             <motion.div variants={itemVariants} className="grid grid-cols-2 gap-4 text-xs font-sans tracking-wider text-amber-300/80 border-b border-amber-400/10 pb-6">
               <div>
                 <p className="text-[10px] uppercase text-amber-400/50 font-sans tracking-wider">Groom's Parents</p>
-                <p className="font-semibold">{groomParents || "Moosa & Shaheeda"}</p>
+                <p className="font-semibold">{groomParents || "The Groom's Family"}</p>
               </div>
               <div>
                 <p className="text-[10px] uppercase text-amber-400/50 font-sans tracking-wider">Bride's Parents</p>
-                <p className="font-semibold">{brideParents || "Muhammed & Naseera"}</p>
+                <p className="font-semibold">{brideParents || "The Bride's Family"}</p>
               </div>
             </motion.div>
           )}
@@ -1126,32 +1135,38 @@ export default function InvitationCard({ data, isPreview = false, onRsvpClick }:
           </motion.div>
 
           {/* Section 9: Family details */}
-          {showFamilyDetails && (
+          {showFamilyDetails && (hasGroomFamily || hasBrideFamily) && (
             <motion.div variants={itemVariants} className="space-y-4 text-center border-t border-amber-400/10 pt-6">
               <div className="text-center">
                 <span className="text-xs uppercase tracking-widest font-sans font-bold text-amber-300 block">Family Members</span>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+              <div className={`grid gap-4 text-center ${
+                hasGroomFamily && hasBrideFamily ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1 max-w-xs mx-auto'
+              }`}>
                 {/* Groom Family */}
-                <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2 text-center">
-                  <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1 text-center">Groom's Family</p>
-                  <div className="space-y-1 text-xs text-amber-100/90 font-sans text-center">
-                    <p><span className="text-amber-400/60 font-semibold">Father:</span> {groomFather || "Moosa"}</p>
-                    <p><span className="text-amber-400/60 font-semibold">Mother:</span> {groomMother || "Shaheeda"}</p>
-                    {(groomBrother || groomParents) && <p><span className="text-amber-400/60 font-semibold">Brother:</span> {groomBrother || "Shamil"}</p>}
-                    {(groomSister || groomParents) && <p><span className="text-amber-400/60 font-semibold">Sister:</span> {groomSister || "Ajmala Thasni"}</p>}
+                {hasGroomFamily && (
+                  <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2 text-center">
+                    <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1 text-center">Groom's Family</p>
+                    <div className="space-y-1 text-xs text-amber-100/90 font-sans text-center">
+                      {groomFather && <p><span className="text-amber-400/60 font-semibold">Father:</span> {groomFather}</p>}
+                      {groomMother && <p><span className="text-amber-400/60 font-semibold">Mother:</span> {groomMother}</p>}
+                      {groomBrother && <p><span className="text-amber-400/60 font-semibold">Brother:</span> {groomBrother}</p>}
+                      {groomSister && <p><span className="text-amber-400/60 font-semibold">Sister:</span> {groomSister}</p>}
+                    </div>
                   </div>
-                </div>
+                )}
                 {/* Bride Family */}
-                <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2 text-center">
-                  <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1 text-center">Bride's Family</p>
-                  <div className="space-y-1 text-xs text-amber-100/90 font-sans text-center">
-                    <p><span className="text-amber-400/60 font-semibold">Father:</span> {brideFather || "Muhammed"}</p>
-                    <p><span className="text-amber-400/60 font-semibold">Mother:</span> {brideMother || "Naseera"}</p>
-                    {brideBrother && <p><span className="text-amber-400/60 font-semibold">Brother:</span> {brideBrother}</p>}
-                    {brideSister && <p><span className="text-amber-400/60 font-semibold">Sister:</span> {brideSister}</p>}
+                {hasBrideFamily && (
+                  <div className="p-3 bg-[#123620]/40 border border-amber-400/15 rounded-xl space-y-2 text-center">
+                    <p className="text-xs font-black uppercase text-amber-300 font-sans tracking-wider border-b border-amber-400/10 pb-1 text-center">Bride's Family</p>
+                    <div className="space-y-1 text-xs text-amber-100/90 font-sans text-center">
+                      {brideFather && <p><span className="text-amber-400/60 font-semibold">Father:</span> {brideFather}</p>}
+                      {brideMother && <p><span className="text-amber-400/60 font-semibold">Mother:</span> {brideMother}</p>}
+                      {brideBrother && <p><span className="text-amber-400/60 font-semibold">Brother:</span> {brideBrother}</p>}
+                      {brideSister && <p><span className="text-amber-400/60 font-semibold">Sister:</span> {brideSister}</p>}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </motion.div>
           )}
