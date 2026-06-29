@@ -5,6 +5,83 @@ import { Calendar, MapPin, Clock, Heart, Sparkles, Music, Camera, Info, Save, Sh
 import { storage } from '../firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
+// Sanitizes pasted image URLs to ensure they resolve directly to images instead of HTML pages
+const sanitizeImageUrl = (url: string): string => {
+  if (!url) return '';
+  let cleaned = url.trim();
+
+  // 1. Google Drive Links
+  // Share link: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+  const driveFileRegex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
+  const driveMatch = cleaned.match(driveFileRegex);
+  if (driveMatch && driveMatch[1]) {
+    return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+  }
+
+  // Open/query link: https://drive.google.com/open?id=FILE_ID
+  const driveOpenRegex = /drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/;
+  const driveOpenMatch = cleaned.match(driveOpenRegex);
+  if (driveOpenMatch && driveOpenMatch[1]) {
+    return `https://drive.google.com/uc?export=view&id=${driveOpenMatch[1]}`;
+  }
+
+  // 2. Dropbox Links
+  // Link: https://www.dropbox.com/s/abcdefg/image.jpg?dl=0
+  if (cleaned.includes('dropbox.com')) {
+    cleaned = cleaned.replace('?dl=0', '?raw=1').replace('?dl=1', '?raw=1');
+    if (!cleaned.includes('?raw=1') && !cleaned.includes('&raw=1')) {
+      cleaned += cleaned.includes('?') ? '&raw=1' : '?raw=1';
+    }
+    return cleaned;
+  }
+
+  return cleaned;
+};
+
+// Compresses uploaded images to lightweight Base64 to guarantee local & shared loading without Storage rules/CORS hurdles
+const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.7): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = Math.round((width * maxHeight) / height);
+            height = maxHeight;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error("Could not get 2D canvas context"));
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl);
+      };
+      img.onerror = (err) => reject(err);
+    };
+    reader.onerror = (err) => reject(err);
+  });
+};
+
 interface EditorPanelProps {
   data: WeddingInvitation;
   onChange: (newData: WeddingInvitation) => void;
@@ -37,16 +114,34 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
     setUploadError(null);
 
     try {
-      const storageRef = ref(storage, `couple-photos/${data.id || 'anonymous'}_${Date.now()}_${file.name}`);
-      const snapshot = await uploadBytes(storageRef, file);
-      const downloadUrl = await getDownloadURL(snapshot.ref);
+      // 1. Instantly compress and save as lightweight Base64.
+      // This guarantees the image will render 100% of the time, offline, locally, or in shared links,
+      // completely bypassing potential Firebase Storage write permission blocks or CORS read blocks.
+      const compressedBase64 = await compressImage(file);
       
       onChange({
         ...data,
-        photoUrl: downloadUrl
+        photoUrl: compressedBase64
       });
+
+      // 2. Best-effort upload to Firebase Storage in the background
+      try {
+        const storageRef = ref(storage, `couple-photos/${data.id || 'anonymous'}_${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadUrl = await getDownloadURL(snapshot.ref);
+        
+        // If Storage succeeds and provides a valid public URL, we can use it.
+        // But to be completely safe against public guest read permissions, 
+        // the lightweight Base64 fallback is already in place.
+        onChange({
+          ...data,
+          photoUrl: downloadUrl
+        });
+      } catch (storageErr: any) {
+        console.warn("Firebase Storage background upload failed, relying on compressed Base64:", storageErr);
+      }
     } catch (err: any) {
-      console.error("Error uploading photo to Firebase Storage: ", err);
+      console.error("Error processing and uploading photo: ", err);
       setUploadError(err.message || "Failed to upload photo. Please try again.");
     } finally {
       setUploading(false);
@@ -81,9 +176,15 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    let finalValue = value;
+
+    if (name === 'photoUrl') {
+      finalValue = sanitizeImageUrl(value);
+    }
+
     onChange({
       ...data,
-      [name]: value
+      [name]: finalValue
     });
   };
 
