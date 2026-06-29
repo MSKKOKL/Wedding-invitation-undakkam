@@ -38,8 +38,8 @@ const sanitizeImageUrl = (url: string): string => {
   return cleaned;
 };
 
-// Compresses uploaded images to lightweight Base64 to guarantee local & shared loading without Storage rules/CORS hurdles
-const compressImage = (file: File, maxWidth = 800, maxHeight = 800, quality = 0.7): Promise<string> => {
+// Compresses uploaded images to highly optimized lightweight Base64 to guarantee instant local & shared loading without Storage rules/CORS hurdles
+const compressImage = (file: File, maxWidth = 500, maxHeight = 500, quality = 0.6): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -100,8 +100,8 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
   const handlePhotoUpload = async (file: File) => {
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      setUploadError("File size is too large. Please select an image under 5MB.");
+    if (file.size > 10 * 1024 * 1024) {
+      setUploadError("File size is too large. Please select an image under 10MB.");
       return;
     }
 
@@ -114,35 +114,18 @@ export default function EditorPanel({ data, onChange, onSave, isSaving, shareUrl
     setUploadError(null);
 
     try {
-      // 1. Instantly compress and save as lightweight Base64.
+      // Instantly compress and save as highly optimized lightweight Base64.
       // This guarantees the image will render 100% of the time, offline, locally, or in shared links,
-      // completely bypassing potential Firebase Storage write permission blocks or CORS read blocks.
+      // completely bypassing potential Firebase Storage write/read permissions, network latencies, or CORS hurdles.
       const compressedBase64 = await compressImage(file);
       
       onChange({
         ...data,
         photoUrl: compressedBase64
       });
-
-      // 2. Best-effort upload to Firebase Storage in the background
-      try {
-        const storageRef = ref(storage, `couple-photos/${data.id || 'anonymous'}_${Date.now()}_${file.name}`);
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadUrl = await getDownloadURL(snapshot.ref);
-        
-        // If Storage succeeds and provides a valid public URL, we can use it.
-        // But to be completely safe against public guest read permissions, 
-        // the lightweight Base64 fallback is already in place.
-        onChange({
-          ...data,
-          photoUrl: downloadUrl
-        });
-      } catch (storageErr: any) {
-        console.warn("Firebase Storage background upload failed, relying on compressed Base64:", storageErr);
-      }
     } catch (err: any) {
-      console.error("Error processing and uploading photo: ", err);
-      setUploadError(err.message || "Failed to upload photo. Please try again.");
+      console.error("Error processing photo: ", err);
+      setUploadError(err.message || "Failed to process photo. Please try again.");
     } finally {
       setUploading(false);
     }
